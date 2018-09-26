@@ -7,6 +7,7 @@ import io
 from PIL import Image
 
 wd = webdriver.Chrome()
+listOfSelectors = []
 
 
 # Get method. Access websites using the url by parameter
@@ -30,7 +31,9 @@ def submit(selector):
 
 ## Take screenshot of entire screen and display it
 def takeScreenshot():
+    sleep(3)
     display(Image.open(io.BytesIO(wd.get_screenshot_as_png())))
+    removeAllHighlights()
 
 ## Take Screenshot of a specified element of the page and display it
 def takeScreenshotOf(selector):
@@ -42,6 +45,24 @@ def takeScreenshotOf(selector):
     pilimg = Image.open(io.BytesIO(img))
     region = pilimg.crop((bounds['left'] * ratio, bounds['top'] * ratio, bounds['right'] * ratio, bounds['bottom'] * ratio,))
     display(region)
+    removeAllHighlights()
 
-# TODO Highlight
-#def highlight(element):
+
+# Highlight a element with a red border, using the element CSS selector
+def highlight(selector):
+    element = wd.find_element_by_css_selector(selector)
+    wd.execute_script('arguments[0].setAttribute("style", "outline: 3px solid red")', element)
+    listOfSelectors.append(selector)
+
+# Remove the highlight of a element, using the element CSS selector
+def removeHighlight(selector):
+    element = wd.find_element_by_css_selector(selector)
+    wd.execute_script('arguments[0].setAttribute("style", "outline: 0px solid red")', element)
+
+# Remove all the highlights
+def removeAllHighlights():
+    for selector in listOfSelectors:
+        removeHighlight(selector)
+
+def sleep(sleepTime):
+    time.sleep(sleepTime);
