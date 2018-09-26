@@ -64,5 +64,6 @@ def removeAllHighlights():
     for selector in listOfSelectors:
         removeHighlight(selector)
 
+## Make the program wait the time defined by parameter, on seconds
 def sleep(sleepTime):
     time.sleep(sleepTime);
