@@ -61,9 +61,10 @@ def removeHighlight(selector):
 
 # Remove all the highlights
 def removeAllHighlights():
+    global listOfSelectors
     for selector in listOfSelectors:
         removeHighlight(selector)
-
+    listOfSelectors = []
 ## Make the program wait the time defined by parameter, on seconds
 def sleep(sleepTime):
     time.sleep(sleepTime);
