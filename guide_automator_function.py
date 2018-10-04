@@ -68,3 +68,9 @@ def removeAllHighlights():
 ## Make the program wait the time defined by parameter, on seconds
 def sleep(sleepTime):
     time.sleep(sleepTime);
+
+## Close the browser window
+def close():
+    wd.quit()
+
+
