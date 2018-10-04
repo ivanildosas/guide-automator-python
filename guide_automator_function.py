@@ -39,6 +39,7 @@ def takeScreenshot():
 def takeScreenshotOf(selector):
 
     element = wd.find_element_by_css_selector(selector)
+    wd.execute_script('arguments[0].scrollIntoView()', element)
     ratio = wd.execute_script("return window.devicePixelRatio;")
     bounds = wd.execute_script("return arguments[0].getBoundingClientRect();", element)
     img = wd.get_screenshot_as_png()
