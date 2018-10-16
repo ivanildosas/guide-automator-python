@@ -66,6 +66,7 @@ def removeAllHighlights():
     for selector in listOfSelectors:
         removeHighlight(selector)
     listOfSelectors = []
+
 ## Make the program wait the time defined by parameter, on seconds
 def sleep(sleepTime):
     time.sleep(sleepTime);
@@ -74,4 +75,32 @@ def sleep(sleepTime):
 def close():
     wd.quit()
 
+## Create a popper on the screen, next to an element, with text and direction based on the parameter
+def pop(selector, text, direction):
+    wd.set_script_timeout(2000);
+    myString = """
+    var mypopper = window.document.createElement('div');
+    mypopper.style="width: 100px; height: 50px; background-color: yellow;"
+    mypopper.id='popper';
+    mypopper.innerHTML = "{0}";
+    window.document.body.appendChild(mypopper);
+    """;
 
+    myString.format(text);
+    wd.execute_script(myString);
+
+    wd.execute_async_script("""
+    var s=window.document.createElement('script');
+    s.src='https://unpkg.com/popper.js/dist/umd/popper.min.js';
+    window.document.head.appendChild(s);
+    s.onload = arguments[0]
+    """);
+
+    myString = """
+    var popper = new Popper(document.getElementById('{0}'),
+    document.getElementById('popper'),
+    { placement: '{1}' });
+    """;
+    myString.format(selector, direction);
+
+    wd.execute_script(myString);
