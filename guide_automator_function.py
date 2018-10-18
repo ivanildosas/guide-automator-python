@@ -1,3 +1,4 @@
+from guide_automator_constants import popperCss
 from selenium import webdriver
 from IPython.display import display
 from selenium.webdriver.support.wait import WebDriverWait
@@ -78,29 +79,45 @@ def close():
 ## Create a popper on the screen, next to an element, with text and direction based on the parameter
 def pop(selector, text, direction):
     wd.set_script_timeout(2000);
+
+    myString = """
+    var s=window.document.createElement('style');
+    s.type = 'text/css';
+    s.innerHTML = `{0}`;
+    window.document.head.appendChild(s);
+    s.onload = arguments[0];
+    """
+    myString = myString.format(popperCss)
+    wd.execute_async_script(myString)
+
     myString = """
     var mypopper = window.document.createElement('div');
-    mypopper.style="width: 100px; height: 50px; background-color: yellow;"
     mypopper.id='popper';
+    mypopper.setAttribute("class","popper");
     mypopper.innerHTML = "{0}";
+    
+    var mypopperArrow = window.document.createElement('div');
+    mypopperArrow.setAttribute("class", "popper__arrow");
+    mypopperArrow.setAttribute("x-arrow", "");
+    mypopper.appendChild(mypopperArrow);
     window.document.body.appendChild(mypopper);
     """;
 
-    myString.format(text);
+    myString = myString.format(text);
     wd.execute_script(myString);
 
     wd.execute_async_script("""
     var s=window.document.createElement('script');
     s.src='https://unpkg.com/popper.js/dist/umd/popper.min.js';
     window.document.head.appendChild(s);
-    s.onload = arguments[0]
+    s.onload = arguments[0];
     """);
 
     myString = """
     var popper = new Popper(document.getElementById('{0}'),
     document.getElementById('popper'),
-    { placement: '{1}' });
+    {{ placement: '{1}' }});
     """;
-    myString.format(selector, direction);
+    myString = myString.format(selector, direction);
 
     wd.execute_script(myString);
