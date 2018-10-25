@@ -114,7 +114,7 @@ def pop(selector, text, direction):
     """);
 
     myString = """
-    var popper = new Popper(document.getElementById('{0}'),
+    var popper = new Popper(document.querySelector('{0}'),
     document.getElementById('popper'),
     {{ placement: '{1}' }});
     """;
