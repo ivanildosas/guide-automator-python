@@ -10,17 +10,18 @@ import io
 
 wd = webdriver.Chrome()
 wd.maximize_window()
+mouse = PyMouse()
+keyboard = PyKeyboard()
+engine = pyttsx3.init()
 
 
 # Move mouse to element
 def clickOnElement(x, y):
-    mouse = PyMouse()
     mouse.move(x, y)
     mouse.click(x, y, 1)
 
 # Speak some text
 def speak(text):
-    engine = pyttsx3.init()
     engine.say(text)
     engine.runAndWait()
     
