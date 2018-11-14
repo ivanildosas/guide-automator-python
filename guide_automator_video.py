@@ -1,6 +1,6 @@
 from pymouse import PyMouse
 from pykeyboard import PyKeyboard
-import pyttsx
+import pyttsx3
 
 
 # Move mouse to element
