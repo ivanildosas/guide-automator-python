@@ -1,4 +1,5 @@
 from guide_automator_constants import popperCss
+from guide_automator_video import clickOnElement
 from selenium import webdriver
 from IPython.display import display
 from selenium.webdriver.support.wait import WebDriverWait
@@ -8,6 +9,7 @@ import io
 from PIL import Image
 
 wd = webdriver.Chrome()
+wd.maximize_window()
 listOfSelectors = []
 
 
@@ -121,3 +123,8 @@ def pop(selector, text, direction):
     myString = myString.format(selector, direction);
 
     wd.execute_script(myString);
+
+# The cursor click on element on the screen, based on his selector
+def clickOnElementWithCursor(selector):
+    elem = wd.find_element_by_css_selector(selector)
+    clickOnElement(elem.location['x'], elem.location['y'])
