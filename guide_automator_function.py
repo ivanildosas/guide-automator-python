@@ -124,7 +124,4 @@ def pop(selector, text, direction):
 
     wd.execute_script(myString);
 
-# The cursor click on element on the screen, based on his selector
-def clickOnElementWithCursor(selector):
-    elem = wd.find_element_by_css_selector(selector)
-    clickOnElement(elem.location['x'], elem.location['y'])
+
