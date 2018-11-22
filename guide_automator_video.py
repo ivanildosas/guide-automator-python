@@ -6,6 +6,7 @@ from IPython.display import display
 from selenium.webdriver.support.wait import WebDriverWait
 import requests
 import time
+import pygame
 import io
 
 wd = webdriver.Chrome()
@@ -13,6 +14,7 @@ wd.maximize_window()
 mouse = PyMouse()
 keyboard = PyKeyboard()
 engine = pyttsx3.init()
+keyboardSound = 'keyboard_sound.mp3'
 
 
 # Move mouse to element
@@ -34,8 +36,24 @@ def get(url):
 def slowTip(selector, string):
     element = wd.find_element_by_css_selector(selector).click();
     words = list(string)
+    count = 0
     for word in words:
         keyboard.tap_key(word)
-        time.sleep(0.5) 
+        time.sleep(0.5)
+        if (count % 10 == 0):
+            playKeyboardSound()
 
+        count += 1
+    stopKeyboardSound()
 
+# Play keyboard sound
+def playKeyboardSound():
+    # Avoid sound lag
+    pygame.mixer.pre_init(44100, -16, 2, 2048)
+    pygame.init()
+    pygame.mixer.music.load(keyboardSound)
+    pygame.mixer.music.play()
+
+# Stop keyboard sound
+def stopKeyboardSound():
+    pygame.mixer.pause()
