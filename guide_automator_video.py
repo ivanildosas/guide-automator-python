@@ -34,18 +34,18 @@ def get(url):
 
 # Simulates slow typing on an element defined by a selector
 def slowTip(selector, string):
-    element = wd.find_element_by_css_selector(selector).click();
+    element = wd.find_element_by_css_selector(selector);
     words = list(string)
     count = 0
     for word in words:
-        keyboard.tap_key(word)
-        time.sleep(0.5)
+        element.send_keys(word)
+        time.sleep(0.3)
         if (count % 10 == 0):
             playKeyboardSound()
-
-        count += 1
-    stopKeyboardSound()
-
+            
+        count += 1    
+    pygame.mixer.stop()
+    print('aa')
 # Play keyboard sound
 def playKeyboardSound():
     # Avoid sound lag
@@ -56,4 +56,4 @@ def playKeyboardSound():
 
 # Stop keyboard sound
 def stopKeyboardSound():
-    pygame.mixer.pause()
+    pygame.mixer.stop()
