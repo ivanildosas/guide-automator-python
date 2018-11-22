@@ -36,14 +36,10 @@ def get(url):
 def slowTip(selector, string):
     element = wd.find_element_by_css_selector(selector);
     words = list(string)
-    count = 0
+    playKeyboardSound()
     for word in words:
         element.send_keys(word)
-        time.sleep(0.3)
-        if (count % 10 == 0):
-            playKeyboardSound()
-            
-        count += 1    
+        time.sleep(0.1)
     pygame.mixer.stop()
     print('aa')
 # Play keyboard sound
