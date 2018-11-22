@@ -4,6 +4,7 @@ import pyttsx3
 from selenium import webdriver
 from IPython.display import display
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.common.action_chains import ActionChains
 import requests
 import time
 import pygame
@@ -20,9 +21,14 @@ keyboardSound = 'keyboard_sound.mp3'
 # Move mouse to element
 def click(selector):
     elem = wd.find_element_by_css_selector(selector)
-    mouse.move(elem.location['x'], elem.location['y'])
-    mouse.click(elem.location['x'], elem.location['y'], 1)
-
+    touch = ActionChains(wd)
+    touch.click_and_hold(elem)
+    touch.perform()
+    time.sleep(0.5)
+    touch.click(elem)
+    touch.perform()
+    
+    
 # Speak some text
 def speak(text):
     engine.say(text)
@@ -41,7 +47,6 @@ def slowTip(selector, string):
         element.send_keys(word)
         time.sleep(0.1)
     pygame.mixer.stop()
-    print('aa')
 # Play keyboard sound
 def playKeyboardSound():
     # Avoid sound lag

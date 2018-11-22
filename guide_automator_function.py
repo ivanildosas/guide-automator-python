@@ -9,6 +9,7 @@ import io
 from PIL import Image
 
 wd = webdriver.Chrome()
+ta = 
 wd.maximize_window()
 listOfSelectors = []
 
