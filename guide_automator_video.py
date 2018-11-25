@@ -16,6 +16,7 @@ except:
     engine = None
     print("Could not load TTS engine")
 keyboardSound = 'keyboard_sound.mp3'
+clickSound = 'click_sound.wav' # http://soundbible.com/893-Button-Click.html
 
 def __element_exists_by_css_selector(selector):
     wd.implicitly_wait(0)
@@ -112,10 +113,11 @@ def click(selector):
     move_fake_mouse(selector)
     elem = wd.find_element_by_css_selector(selector)
 
+    playClickSound()
     touch = ActionChains(wd)
     touch.click_and_hold(elem)
     touch.perform()
-    time.sleep(0.5)
+    time.sleep(0.28)
     touch.click(elem)
     touch.perform()
     
@@ -138,6 +140,15 @@ def slowTip(selector, string):
         element.send_keys(word)
         time.sleep(0.05)
     pygame.mixer.stop()
+
+# Play click sound
+def playClickSound():
+    # Avoid sound lag
+    pygame.mixer.pre_init(44100, -16, 2, 2048)
+    pygame.init()
+    pygame.mixer.music.load(clickSound)
+    pygame.mixer.music.play()
+
 # Play keyboard sound
 def playKeyboardSound():
     # Avoid sound lag
