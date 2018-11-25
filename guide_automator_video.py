@@ -149,3 +149,6 @@ def playKeyboardSound():
 # Stop keyboard sound
 def stopKeyboardSound():
     pygame.mixer.stop()
+
+def close():
+    wd.quit()
