@@ -136,7 +136,7 @@ def slowTip(selector, string):
     playKeyboardSound()
     for word in words:
         element.send_keys(word)
-        time.sleep(0.1)
+        time.sleep(0.05)
     pygame.mixer.stop()
 # Play keyboard sound
 def playKeyboardSound():
