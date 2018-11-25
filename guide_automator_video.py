@@ -17,6 +17,7 @@ except:
     engine = None
     print("Could not load TTS engine")
 
+last_mouse_pos = (0, 0, )
 pygame.init()
 keyboardSound = pygame.mixer.Sound('keyboard_sound.wav')
 clickSound = pygame.mixer.Sound('click_sound.wav') # http://soundbible.com/893-Button-Click.html
@@ -37,6 +38,7 @@ def create_fake_mouse():
         s.src = 'https://github.com/octalmage/mousecontrol/raw/gh-pages/mac-cursor.png';
         s.id = 'maccursor';
         s.style = `cursor: none;
+        pointer-events: none;
         width: 20px;
         height: 25px;
         background-size: contain;
@@ -44,12 +46,13 @@ def create_fake_mouse():
         background-repeat: no-repeat;
         background-position: top left;
         position: absolute;
-        top: 0;
-        left: 0;
+        top: {0}px;
+        left: {1}px;
         z-index: 10000;`;
         window.document.body.appendChild(s);
         s.onload = arguments[0];
-        """
+        """.format(last_mouse_pos[0], last_mouse_pos[1])
+    print(last_mouse_pos)
     wd.execute_async_script(myString)
 
 def __get_element_bounds(element):
@@ -110,21 +113,23 @@ def move_fake_mouse(selector, duration=700):
     """ % (duration, bounds["x"], bounds["y"])
     wd.execute_async_script(script)
 
+    global last_mouse_pos
+    last_mouse_pos = (bounds["x"], bounds["y"], )
 
 # Move mouse to element
 def click(selector):
     move_fake_mouse(selector)
-    elem = wd.find_element_by_css_selector(selector)
-    pos = __get_element_center_position(elem)
+    element = wd.find_element_by_css_selector(selector)
+    pos = __get_element_center_position(element)
 
+    
     clickSound.play()
     touch = ActionChains(wd)
-    touch.click_and_hold(elem)
-    touch.perform()
+    touch.click_and_hold(element).perform()
     ripple(pos['x'], pos['y'])
     time.sleep(0.28)
-    touch.release(elem)
-    touch.perform()
+    touch.release(element).perform()
+    sleep(0.2)
 
 # Based on https://hacks.mozilla.org/2012/04/click-highlights-with-css-transitions/
 def ripple(x, y):
