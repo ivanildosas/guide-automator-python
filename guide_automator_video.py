@@ -1,3 +1,4 @@
+from guide_automator_constants import rippleCss
 import pyttsx3
 from selenium import webdriver
 from IPython.display import display
@@ -114,14 +115,53 @@ def move_fake_mouse(selector, duration=700):
 def click(selector):
     move_fake_mouse(selector)
     elem = wd.find_element_by_css_selector(selector)
+    pos = __get_element_center_position(elem)
 
     clickSound.play()
     touch = ActionChains(wd)
     touch.click_and_hold(elem)
     touch.perform()
+    ripple(pos['x'], pos['y'])
     time.sleep(0.28)
-    touch.click(elem)
+    touch.release(elem)
     touch.perform()
+
+# Based on https://hacks.mozilla.org/2012/04/click-highlights-with-css-transitions/
+def ripple(x, y):
+    if not __element_exists_by_css_selector('#lookatmeiamhere'):
+        myString = """
+            var s=window.document.createElement('style');
+            s.type = 'text/css';
+            s.innerHTML = `{0}`;
+            window.document.head.appendChild(s);
+            s.onload = arguments[0];
+        """
+        myString = myString.format(rippleCss)
+        wd.execute_async_script(myString)
+
+        script = """
+            var plot = document.createElement('div'),
+                pressed = false;
+            plot.id = 'lookatmeiamhere';
+            document.body.appendChild(plot);
+            var offset = plot.offsetWidth / 2;
+            return offset
+        """
+        wd.execute_script(script)
+
+    script = """
+      var plot = document.getElementById('lookatmeiamhere'),
+        offset = plot.offsetWidth / 2;
+      document.body.classList.add('down');
+      plot.style.left = %d - offset + 'px';
+      plot.style.top = %d - offset + 'px';
+      console.log('left:', plot.style.left, 'top:', plot.style.top)
+
+      setTimeout(function () {
+          document.body.classList.remove('down');
+      }, 300);
+    """ % (x, y)
+    wd.execute_script(script)
     
 # Speak some text
 def speak(text):

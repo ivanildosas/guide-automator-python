@@ -1,3 +1,33 @@
+rippleCss = """
+  #lookatmeiamhere {
+      z-index: 9999;
+      pointer-events: none;
+      cursor: pointer;
+      background: rgba( 255, 255, 255, 0.7 );
+      width:100px;
+      height: 100px;
+      position: absolute;
+      border: solid 2px red;
+      border-radius: 100px;
+      -webkit-transition: -webkit-transform 0.3s;
+         -moz-transition: -moz-transform 0.3s;
+          -ms-transition: -ms-transform 0.3s;
+           -o-transition: -o-transform 0.3s;
+              transition: transform 0.3s;
+       -webkit-transform: scale( 0,0 );
+          -moz-transform: scale( 0,0 );
+           -ms-transform: scale( 0,0 );
+            -o-transform: scale( 0,0 );
+               transform: scale( 0,0 );
+  }
+  .down #lookatmeiamhere {
+    -webkit-transform: scale( 1, 1 );
+       -moz-transform: scale( 1, 1 );
+        -ms-transform: scale( 1, 1 );
+         -o-transform: scale( 1, 1 );
+            transform: scale( 1, 1 );
+  }
+"""
 popperCss = """
 .popper,
 .tooltip {
