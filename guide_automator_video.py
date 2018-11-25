@@ -104,7 +104,7 @@ def move_fake_mouse(selector, duration=700):
         let duration = %d;
         animate(elem, %d, %d, duration, arguments[0]);
     """ % (duration, bounds["x"], bounds["y"])
-    wd.execute_script(script)
+    wd.execute_async_script(script)
 
 
 # Move mouse to element
