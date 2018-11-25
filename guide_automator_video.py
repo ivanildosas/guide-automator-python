@@ -93,7 +93,8 @@ def move_fake_mouse(selector, duration=700):
           let f = createTweenFunction(x1, y1, x2, y2, duration);
           let interval = setInterval(function () {
             let pos = f();
-            $(elem).css('left', pos.x).css('top', pos.y);
+            elem.style.left = pos.x + 'px';
+            elem.style.top = pos.y + 'px';
             if (pos.done) {
               clearInterval(interval);
               if (callback != undefined) {
@@ -104,7 +105,6 @@ def move_fake_mouse(selector, duration=700):
         }
 
         elem = document.getElementById('maccursor');
-        // $(elem).css('left', 0).css('top', 0);
         let duration = %d;
         animate(elem, %d, %d, duration, arguments[0]);
     """ % (duration, bounds["x"], bounds["y"])
@@ -186,3 +186,6 @@ def slowTip(selector, string):
 
 def close():
     wd.quit()
+
+def sleep(sleepTime):
+    time.sleep(sleepTime);
