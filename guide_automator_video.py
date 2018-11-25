@@ -15,8 +15,10 @@ try:
 except:
     engine = None
     print("Could not load TTS engine")
-keyboardSound = 'keyboard_sound.mp3'
-clickSound = 'click_sound.wav' # http://soundbible.com/893-Button-Click.html
+
+pygame.init()
+keyboardSound = pygame.mixer.Sound('keyboard_sound.wav')
+clickSound = pygame.mixer.Sound('click_sound.wav') # http://soundbible.com/893-Button-Click.html
 
 def __element_exists_by_css_selector(selector):
     wd.implicitly_wait(0)
@@ -113,7 +115,7 @@ def click(selector):
     move_fake_mouse(selector)
     elem = wd.find_element_by_css_selector(selector)
 
-    playClickSound()
+    clickSound.play()
     touch = ActionChains(wd)
     touch.click_and_hold(elem)
     touch.perform()
@@ -134,32 +136,13 @@ def get(url):
 # Simulates slow typing on an element defined by a selector
 def slowTip(selector, string):
     element = wd.find_element_by_css_selector(selector);
+    seconds_between_keystrokes = 0.05
     words = list(string)
-    playKeyboardSound()
+    keyboardSound.play(loops = -1)
     for word in words:
         element.send_keys(word)
         time.sleep(0.05)
-    pygame.mixer.stop()
-
-# Play click sound
-def playClickSound():
-    # Avoid sound lag
-    pygame.mixer.pre_init(44100, -16, 2, 2048)
-    pygame.init()
-    pygame.mixer.music.load(clickSound)
-    pygame.mixer.music.play()
-
-# Play keyboard sound
-def playKeyboardSound():
-    # Avoid sound lag
-    pygame.mixer.pre_init(44100, -16, 2, 2048)
-    pygame.init()
-    pygame.mixer.music.load(keyboardSound)
-    pygame.mixer.music.play()
-
-# Stop keyboard sound
-def stopKeyboardSound():
-    pygame.mixer.stop()
+    keyboardSound.stop()
 
 def close():
     wd.quit()
