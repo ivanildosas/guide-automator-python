@@ -10,7 +10,8 @@ import pygame
 import io
 
 wd = webdriver.Chrome()
-# wd.maximize_window()
+# wd.maximize_window
+wd.fullscreen_window()
 try:
     engine = pyttsx3.init()
 except:
