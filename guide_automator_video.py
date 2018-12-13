@@ -180,7 +180,7 @@ def get(url):
     wd.get(url);
 
 # Simulates typing on an element defined by a selector
-def tip(selector, string):
+def fillIn(selector, string):
     element = wd.find_element_by_css_selector(selector);
     seconds_between_keystrokes = 0.05
     words = list(string)
