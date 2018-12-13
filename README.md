@@ -7,6 +7,6 @@
 Recomendado trabalhar utilizando uma virtual-env.
 Dentro da pasta do projeto:
 
-*$ python3 -m venv . 
-$ source bin/activate*
+*$ python3 -m venv .* 
+*$ source bin/activate*
 
