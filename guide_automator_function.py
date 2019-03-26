@@ -1,5 +1,4 @@
 from guide_automator_constants import popperCss
-from guide_automator_video import clickOnElement
 from selenium import webdriver
 from IPython.display import display
 from selenium.webdriver.support.wait import WebDriverWait
