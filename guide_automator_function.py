@@ -123,4 +123,8 @@ def pop(selector, text, direction):
 
     wd.execute_script(myString);
 
+## Clear input/text field.
+def clearInput(selector):
+    elem = wd.find_element_by_css_selector(selector);
+    elem.clear()
 
