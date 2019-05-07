@@ -126,5 +126,10 @@ def pop(selector, text, direction):
 ## Clear input/text field.
 def clearInput(selector):
     elem = wd.find_element_by_css_selector(selector);
-    elem.clear()
+    elem.clear();
+    
+## Click on covered element
+def clickOnCoveredElement(selector):
+    elem = wd.find_element_by_css_selector(selector);
+    wd.execute_script("arguments[0].click()", elem);
 
