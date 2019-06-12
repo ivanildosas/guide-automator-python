@@ -137,6 +137,6 @@ def clickOnCoveredElement(selector):
 ## Click on item inside drop-down element, using the selector and the visible text of 
 ## the element.
 def selectItemOnDropdownByVisibleText(selector, text):
-    select = wd.find_element_by_css_selector(selector);
-    select.select_by_visible_text(text).click()
+    select = Select(wd.find_element_by_css_selector(selector));
+    select.select_by_visible_text(text)
     
