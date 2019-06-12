@@ -1,5 +1,6 @@
 from guide_automator_constants import popperCss
 from selenium import webdriver
+from selenium.webdriver.support.ui import Select
 from IPython.display import display
 from selenium.webdriver.support.wait import WebDriverWait
 import requests
@@ -133,3 +134,9 @@ def clickOnCoveredElement(selector):
     elem = wd.find_element_by_css_selector(selector);
     wd.execute_script("arguments[0].click()", elem);
 
+## Click on item inside drop-down element, using the selector and the visible text of 
+## the element.
+def selectItemOnDropdownByVisibleText(selector, text):
+    select = wd.find_element_by_css_selector(selector);
+    select.select_by_visible_text(text).click()
+    
