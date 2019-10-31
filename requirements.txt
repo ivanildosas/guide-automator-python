@@ -2,7 +2,7 @@
 
 chromedriver==2.24.1
 pygame==1.9.4
-Pillow==5.4.3
+Pillow==6.2.0
 jupyter==1.0.0
 pyttsx3==2.7
 selenium==3.141.0
