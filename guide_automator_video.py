@@ -8,6 +8,7 @@ import requests
 import time
 import pygame
 import io
+from guide_automator_recorder import GuideAutomatorRecorder
 
 wd = webdriver.Chrome()
 # wd.maximize_window
@@ -22,6 +23,29 @@ last_mouse_pos = (0, 0, )
 pygame.init()
 keyboardSound = pygame.mixer.Sound('keyboard_sound.wav')
 clickSound = pygame.mixer.Sound('click_sound.wav') # http://soundbible.com/893-Button-Click.html
+
+recorder = None
+
+# Get the screen coordinates from browser window to record only the html body
+def init_recorder():
+    global recorder
+    try:
+        screen_top = wd.execute_script("return window.screenTop")
+        outer_height = wd.execute_script("return window.outerHeight")
+        inner_height = wd.execute_script("return window.innerHeight")
+        
+        top = screen_top + (outer_height - inner_height)
+        left = wd.execute_script("return window.screenX;") 
+        right = wd.execute_script("return window.innerHeight;")
+        bottom = wd.execute_script("return window.outerWidth;")
+        
+        time.sleep(0.1)
+        recorder = GuideAutomatorRecorder(top, left, bottom, right)
+    except:
+        recorder = None
+        print("Could not load the Guide Automator Recorder")
+
+init_recorder()
 
 def __element_exists_by_css_selector(selector):
     wd.implicitly_wait(0)
@@ -195,3 +219,11 @@ def close():
 
 def sleep(sleepTime):
     time.sleep(sleepTime);
+ 
+# Start the audio and video recording
+def start_recording(filename):
+    recorder.start(filename)
+
+# Stop the audio and video recording
+def stop_recording():
+    recorder.stop() 
